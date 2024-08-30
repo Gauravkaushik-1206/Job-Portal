@@ -1,4 +1,4 @@
-import { application } from "express";
+
 import mongoose from "mongoose";
 
 const jobSchema = new mongoose.Schema({
@@ -44,4 +44,5 @@ const jobSchema = new mongoose.Schema({
         ref:"Application"
     }]
 },{timestamps:true})
-export const job = mongoose.model("Job",jobSchema);
+
+export const Job = mongoose.model("Job",jobSchema);
