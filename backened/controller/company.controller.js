@@ -2,7 +2,7 @@ import { Company } from "../db/company.model.js"
 
 export const registerCompany = async (req,res)=>{
     try {
-        const [companyName] = req.body;
+        const {companyName} = req.body;
         if(!companyName){
             return res.status(400).json({
                 message:"Company is required",
@@ -21,6 +21,7 @@ export const registerCompany = async (req,res)=>{
             name:companyName,
             userId:req.id
         })
+
         return res.status(202).json({
             message:"Company is registered successfully",
             company,
@@ -42,6 +43,12 @@ export const getCompany = async (req,res)=>{
                 success:false
             })
         }
+
+        return res.status(200).json({
+            message:"Company that has been registered",
+            companies,
+            success:true
+        })
     } catch (error) {
         console.log(error)
     }
