@@ -8,7 +8,7 @@ export const register  = async (req,res)=>{
     try {
         const {fullname,email,phoneNumber,password,role} = req.body;
         const result = userSchema.safeParse(req.body);
-        if(!result.sucess || !fullname){
+        if(!result.success || !fullname){
             return res.status(400).json({
                 messsage:"Invalid Input",
                 sucess:false,
@@ -16,9 +16,10 @@ export const register  = async (req,res)=>{
             })
         }
         const user = await User.findOne({email});
-        if(!user){
+        if(user){
             return res.status(400).json({
                 message:"User already exist with this email Id",
+                user,
                 sucess:false,
             })
         }
@@ -47,7 +48,7 @@ export const login = async (req,res)=>{
     try{
         const {email,password} = req.body;
         const result = loginSchema.safeParse(req.body);
-        if(!result.sucess){
+        if(!result.success){
             return res.status(400).json({
                 message:"Invalid Input",
                 sucess:false
@@ -71,7 +72,7 @@ export const login = async (req,res)=>{
         }
 
         const tokendata = {
-            emailId:user.email
+            userId:user._id
         }
 
         const token = jwt.sign(tokendata, process.env.JWTPASSWORD, {
@@ -85,8 +86,7 @@ export const login = async (req,res)=>{
         })
 
     }catch(error){
-        console.log(error);
-        
+        console.log(error);     
     }
 }
 
@@ -106,19 +106,11 @@ export const updateProfile = async (req,res)=>{
     try{
         const {fullname,email,phoneNumber,bio,skills}=req.body;
         const file = req.file;
-        if(!fullname || !email || !phoneNumber || !bio || !skills){
-            return res.status(400).json({
-                message:"Something is Missing",
-                sucess:false
-            });
-        }
 
         //cloudinary idhar aayega
 
-
-        const skillsArray = skills.split(",");
         const userId = req.id;//middleware authenatication
-        let user = User.findById(userId);
+        let user = await User.findById(userId);
         if(!user){
             return res.status(400).json({
                 message:"User not found",
@@ -126,11 +118,11 @@ export const updateProfile = async (req,res)=>{
             })
         } 
         //update
-        user.fullname=fullname
-        user.email=email
-        user.phoneNumber=phoneNumber
-        user.profile.bio=bio
-        user.profile.skills=skillsArray
+        if(fullname) user.fullname=fullname
+        if(email) user.email=email
+        if(phoneNumber) user.phoneNumber=phoneNumber
+        if(bio) user.profile.bio=bio
+        if(skills) user.profile.skills=skills.split(",");
 
         // resume file later
 
