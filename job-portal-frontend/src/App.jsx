@@ -1,6 +1,8 @@
 
-import { createBrowserRouter } from "react-router-dom"
-import Navbar from "./components/shared/navbar.jsx"
+import { createBrowserRouter, RouterProvider } from "react-router-dom"
+import Login from "./components/auth/Login.jsx"
+import Signup from "./components/auth/Signup.jsx"
+import Home from "./components/Home.jsx"
 
 const appRouter = createBrowserRouter([
   {
@@ -15,20 +17,12 @@ const appRouter = createBrowserRouter([
     path:'/signup',
     element:<Signup></Signup>
   },
-  {
-    path:'/',
-    element:<Home></Home>
-  },
-  {
-    path:'/',
-    element:<Home></Home>
-  },
 ])
 function App() {
 
   return (
     <>
-      <Navbar></Navbar>
+      <RouterProvider router={appRouter}></RouterProvider>
     </>
   )
 }
