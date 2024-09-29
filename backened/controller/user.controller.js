@@ -10,7 +10,7 @@ export const register  = async (req,res)=>{
         const result = userSchema.safeParse(req.body);
         if(!result.success || !fullname){
             return res.status(400).json({
-                messsage:"Invalid Input",
+                message:"Invalid Input",
                 sucess:false,
                 error:result
             })
