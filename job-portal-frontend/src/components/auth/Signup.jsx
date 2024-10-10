@@ -30,7 +30,7 @@ const Signup = () => {
     }
 
     const changeFileHandler = (e)=>{
-        setInput({...input, file:e.target.file?.[0]});
+        setInput({...input, file:e.target.files?.[0]});
     }
 
     const submitHandler = async (e)=>{
@@ -44,17 +44,16 @@ const Signup = () => {
         if(input.file){
             formData.append("file",input.file);
         }
-
         try {
             dispatch(setLoading(true));
             const res = await axios.post(`${User_API_End_Point}/register`,formData,{
                 headers:{
                     "Content-Type":"multipart/form-data"
                 },
-                WithCredentials:true
+                withCredentials:true
             });
             if(res.data.sucess){
-                 navigate("/login")
+                navigate("/login")
                 toast.success(res.data.message);
             }
         } catch (error) {
@@ -141,14 +140,13 @@ const Signup = () => {
                     <Input
                         accept="image/*"
                         type="file"
-                        name="file"
                         onChange={changeFileHandler}
                         className="cursor-pointer"
                     ></Input>
                 </div>
                 {
-                    loading ? <Button className="w-full my-4"><Loader2 className='mr-2 w-2 h-2 animate-spin'>Please wait</Loader2></Button> :
-                    <Button type="submit" className="w-full my-4">LogIn</Button>
+                    loading ? <Button className="w-full my-4"><Loader2 className='mr-2 w-2 h-2 animate-spin'></Loader2>Please wait</Button> :
+                    <Button type="submit" className="w-full my-4">SignUp</Button>
                 }
                 <span>Already have an acount?<Link to="/login" className="text-blue-600">Login</Link></span>
             </form>
