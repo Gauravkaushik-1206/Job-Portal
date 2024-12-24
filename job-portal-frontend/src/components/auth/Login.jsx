@@ -8,7 +8,7 @@ import axios from 'axios'
 import { toast } from 'sonner'
 import { User_API_End_Point } from '@/utils/constant'
 import { useDispatch, useSelector } from 'react-redux'
-import { setLoading } from '@/redux/authSlice'
+import { setLoading, setUser } from '@/redux/authSlice'
 import { Loader2 } from 'lucide-react'
 
 const Login = () => {
@@ -33,9 +33,10 @@ const Login = () => {
                 headers:{
                     "Content-Type":"application/json"
                 },
-                WithCredentials:true
+                withCredentials:true
             });
             if(res.data.sucess){
+                dispatch(setUser(res.data.user));
                 navigate("/")
                 toast.success(res.data.message);
             }

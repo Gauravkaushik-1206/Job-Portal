@@ -37,7 +37,7 @@ export const applyJob = async (req,res)=>{
         await job.save();
 
         return res.status(201).json({
-            message:"Successfully",
+            message:"Successfully Applied",
             success:true
         })
     } catch (error) {

@@ -3,10 +3,14 @@ import zod from "zod";
 import { userSchema, loginSchema } from "../type.js";
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken";
+import getDataUri from "../utils/datauri.js";
+import cloudinary from "../utils/cloudinary.js";
 
 export const register  = async (req,res)=>{
     try {
+        console.log(req.body);
         const {fullname,email,phoneNumber,password,role} = req.body;
+        console.log(fullname,email,phoneNumber,password,role);
         const result = userSchema.safeParse(req.body);
         if(!result.success || !fullname){
             return res.status(400).json({
@@ -15,6 +19,13 @@ export const register  = async (req,res)=>{
                 error:result
             })
         }
+
+        const file = req.file;
+        // console.log(file);
+        const fileUri = getDataUri(file);
+        // console.log(fileUri);
+        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+
         const user = await User.findOne({email});
         if(user){
             return res.status(400).json({
@@ -31,6 +42,9 @@ export const register  = async (req,res)=>{
             phoneNumber,
             password:hashedPassword,
             role,
+            profile:{
+                profilePhoto:cloudResponse.secure_url,
+            }
         })
 
         return res.status(201).json({
@@ -79,7 +93,18 @@ export const login = async (req,res)=>{
             expiresIn: '1d'
         });
 
-        return res.status(200).cookie("token",token,{maxAge:1*24*60*60*1000,httpsOnly:true,sameSite:'strict'}).json({
+        // console.log('Token: ',token);
+        res.cookie('token',token,{
+            httpOnly:true,
+            secure : false,
+            signed:true,
+            // maxAge:1000,// sets the expiration time in milliseconds, for now we are setting it much less
+            expires: new Date(Date.now()+8640000),
+        })
+        // res.cookie("token",token,{maxAge:1*24*60*60*1000,httpOnly:true,sameSite:'None',secure:true});
+        // console.log(res.cookie.token);
+        
+        return res.status(200).json({
             message:`Welcome back ${user.fullname}`,
             user,
             sucess:true
@@ -105,9 +130,13 @@ export const logOut = async (req,res)=>{
 export const updateProfile = async (req,res)=>{
     try{
         const {fullname,email,phoneNumber,bio,skills}=req.body;
-        const file = req.file;
+        console.log(fullname,email,phoneNumber,bio,skills);
 
         //cloudinary idhar aayega
+        const file = req.file;
+        const fileuri = getDataUri(file);
+        const cloudResponse = await cloudinary.uploader.upload(fileuri.content);
+
 
         const userId = req.id;//middleware authenatication
         let user = await User.findById(userId);
@@ -125,8 +154,12 @@ export const updateProfile = async (req,res)=>{
         if(skills) user.profile.skills=skills.split(",");
 
         // resume file later
+        if(cloudResponse){
+            user.profile.resume = cloudResponse.secure_url;
+            user.profile.resumeOriginalName = file.originalname;
+        }
 
-        user.save();
+        await user.save();
 
         return res.status(200).json({
             message:"Sucessfully updated",

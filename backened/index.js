@@ -7,6 +7,7 @@ import userRouter from "./routes/user.route.js";
 import companyRouter from "./routes/company.route.js"
 import jobRouter from "./routes/job.route.js"
 import applicationRoute from "./routes/application.route.js"
+import morgan from "morgan";
 
 dotenv.config({});
 
@@ -15,14 +16,15 @@ const app = express();
 //middleware
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-app.use(cookieParser());
+// app.use(cookieParser());
+app.use(morgan('tiny'));
 
 const corsOption = {
     origin:"http://localhost:5173",
     credentials:true
 }
 app.use(cors(corsOption));
-
+app.use(cookieParser(process.env.JWTPASSWORD));
 //api's
 app.use("/api/v1/user",userRouter);
 app.use("/api/v1/user/company",companyRouter);

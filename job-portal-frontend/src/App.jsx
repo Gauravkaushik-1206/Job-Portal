@@ -3,6 +3,13 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import Login from "./components/auth/Login.jsx"
 import Signup from "./components/auth/Signup.jsx"
 import Home from "./components/Home.jsx"
+import Jobs from "./components/Jobs.jsx"
+import Browse from "./components/Browse.jsx"
+import Profile from "./components/Profile.jsx"
+import JobDescription from "./components/JobDescription.jsx"
+import Companies from "./components/admin/Companies.jsx"
+import CompanyCreate from "./components/admin/CompanyCreate.jsx"
+import CompanySetup from "./components/admin/CompanySetup.jsx"
 
 const appRouter = createBrowserRouter([
   {
@@ -16,6 +23,35 @@ const appRouter = createBrowserRouter([
   {
     path:'/signup',
     element:<Signup></Signup>
+  },
+  {
+    path:'/jobs',
+    element:<Jobs></Jobs>
+  },
+  {
+    path:'/description/:id',
+    element:<JobDescription></JobDescription>
+  },
+  {
+    path:'/browse',
+    element:<Browse></Browse> 
+  },
+  {
+    path:'/profile',
+    element:<Profile></Profile> 
+  },
+  //admin
+  {
+    path:'/admin/companies',
+    element:<Companies></Companies>
+  },
+  {
+    path:'/admin/companies/create',
+    element:<CompanyCreate></CompanyCreate>
+  },
+  {
+    path:'/admin/companies/:id',
+    element:<CompanySetup></CompanySetup>
   },
 ])
 function App() {
