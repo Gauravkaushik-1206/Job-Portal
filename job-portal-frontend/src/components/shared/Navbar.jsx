@@ -44,9 +44,20 @@ const Navbar = () => {
             </div>
             <div className='flex items-center gap-12'>
                 <ul className='flex font-medium items-center gap-5'>
-                    <li><Link to='/'>Home</Link></li>
-                    <li><Link to='/jobs'>Jobs</Link></li>
-                    <li><Link to='/browse'>Browse</Link></li>
+                    {
+                        user && user?.role==='recruiter' ? (
+                            <>
+                                <li><Link to='/admin/companies'>Companies</Link></li> 
+                                <li><Link to='/admin/jobs'>Jobs</Link></li>
+                            </>
+                        ):(
+                            <>
+                                <li><Link to='/'>Home</Link></li>
+                                <li><Link to='/jobs'>Jobs</Link></li>
+                                <li><Link to='/browse'>Browse</Link></li>
+                            </>
+                        )
+                    }
                 </ul> 
                 {
                     !user?(
@@ -73,10 +84,14 @@ const Navbar = () => {
                                     </div>
                                 </div>
                                 <div className="flex flex-col my-2 text-gray-600">
-                                    <div className="flex w-fit items-center gap-2 cursor-pointer">
-                                        <User2></User2>
-                                        <Button variant="link"><Link to="/profile">View Profile</Link></Button>
-                                    </div>
+                                    {
+                                        user && user?.role==='student' && (
+                                            <div className="flex w-fit items-center gap-2 cursor-pointer">
+                                                <User2></User2>
+                                                <Button variant="link"><Link to="/profile">View Profile</Link></Button>
+                                            </div>
+                                        )
+                                    }
                                     <div className="flex w-fit items-center gap-2 cursor-pointer">
                                         <LogOut></LogOut>
                                         <Button onClick={logoutHandler} variant="link">LogOut</Button>
@@ -85,9 +100,7 @@ const Navbar = () => {
                             </PopoverContent>
                         </Popover>
                     )
-                }
-                
-                
+                }      
             </div>
         </div>
     </div>
