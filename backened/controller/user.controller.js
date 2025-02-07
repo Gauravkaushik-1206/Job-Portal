@@ -171,3 +171,10 @@ export const updateProfile = async (req,res)=>{
         console.log(error);
     }
 }
+
+export const validToken = async (req,res)=>{
+    return res.json({
+        message:"Valid Token",
+        sucess:true
+    })
+}

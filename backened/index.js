@@ -31,6 +31,8 @@ app.use("/api/v1/user/company",companyRouter);
 app.use("/api/v1/user/job",jobRouter);
 app.use("/api/v1/user/application",applicationRoute);
 
+
+
 const port = process.env.PORT || 3000;
 app.listen(port,()=>{
     connectDB();

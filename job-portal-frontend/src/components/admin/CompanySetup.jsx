@@ -57,6 +57,9 @@ const CompanySetup = () => {
                 toast.success(res.data.message);
                 navigate("/admin/companies");
             }
+            else{
+                toast.error(res.data.message);
+            }
         } catch (error) {
             console.log(error);
             toast.error(error.res.data.message);
