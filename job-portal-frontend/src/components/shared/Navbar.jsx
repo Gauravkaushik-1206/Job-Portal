@@ -4,7 +4,7 @@ import {
     PopoverTrigger,
   } from "@/components/ui/popover"
   
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { LogOut, User2 } from "lucide-react"
@@ -20,12 +20,32 @@ const Navbar = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    useEffect(()=>{
+        const validateUser = async ()=>{
+                try{
+                    const res = await axios.get(`${User_API_End_Point}/validate`,{
+                        withCredentials:true,
+                        validateStatus: () => true  // ✅ Treats all status codes as successful
+                    });
+                    if(!res.data.sucess){
+                        dispatch(setUser(null));
+                        // navigate("/");
+                        toast.error(res.data.message);
+                    }
+                }
+                catch(error){
+                    console.log(error);
+                }
+        }
+        validateUser();
+    },[])
+
     const logoutHandler = async ()=>{
         try {
             const res = await axios.get(`${User_API_End_Point}/logout`,{
                 withCredentials:true
             });
-            console.log(res);
+            // console.log(res);
             if(res.data.sucess){   
                 dispatch(setUser(null));
                 navigate("/");

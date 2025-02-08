@@ -6,15 +6,16 @@ import CompaniesTable from './CompaniesTable'
 import { useNavigate } from 'react-router-dom'
 import { use } from 'react'
 import { useDispatch } from 'react-redux'
-import { setSearchCompanyByText } from '@/redux/companySlice'
+import AdminJobTable from './AdminJobTable'
+import { setSearchJobByText } from '@/redux/jobSlice'
 
-const Companies = () => {
+const AdminJobs = () => {
     const navigate = useNavigate();
     const [input,setInput] = useState('');
     const dispatch = useDispatch();
 
     useEffect(()=>{
-      dispatch(setSearchCompanyByText(input));
+      dispatch(setSearchJobByText(input));
     },[input]);
 
   return (
@@ -27,13 +28,13 @@ const Companies = () => {
                 placeholder="Filter by Name"
                 onChange={(e)=>setInput(e.target.value)}
                 ></Input>
-                <Button onClick={()=> navigate("/admin/job/create")}>New Company</Button>
+                <Button onClick={()=> navigate("/admin/job/create")}>New Job</Button>
             </div>
-            <CompaniesTable></CompaniesTable>
+            <AdminJobTable></AdminJobTable>
             
         </div>
     </div>
   )
 }
 
-export default Companies
+export default AdminJobs

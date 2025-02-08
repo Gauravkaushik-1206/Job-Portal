@@ -3,54 +3,50 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { Avatar, AvatarImage } from '../ui/avatar'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 import { Edit2, MoreHorizontal } from 'lucide-react'
-import useGetAllCompanies from '@/hooks/useGetAllCompanies'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import useGetAllAdminJobs from '@/hooks/useGetAllAdminJobs'
 
-const CompaniesTable = () => {
-    useGetAllCompanies();
-    const {companies, searchComapnyByText} = useSelector(store=>store.company);
-    const [filterCompany, setFilterCompany] = useState([]);
+const AdminJobTable = () => {
+    useGetAllAdminJobs();
+    const {allAdminJobs, searchJobByText} = useSelector(store=>store.job);
+    const [filterAdminJobs, setFilterAdminJobs] = useState([]);
     const navigate = useNavigate();
 
     useEffect(()=>{
-        const filteredComapy = companies.length >= 0 && companies.filter((company)=>{
-            if(!searchComapnyByText){
+        const filteredAdminJobs = allAdminJobs.length >= 0 && allAdminJobs.filter((job)=>{
+            if(!searchJobByText){
                 return true;
             }
-            return company.name.toLowerCase().includes(searchComapnyByText.toLowerCase());
+            return job.title.toLowerCase().includes(searchJobByText.toLowerCase()) || job?.company?.name.toLowerCase().includes(searchJobByText.toLowerCase());
         })
-        setFilterCompany(filteredComapy);
-    },[companies, searchComapnyByText]);
+        setFilterAdminJobs(filteredAdminJobs);
+    },[allAdminJobs, searchJobByText]);
 
   return (
     <div>
        <Table>
-            <TableCaption>A List of your recent Company</TableCaption>
+            <TableCaption>A List of your recent Jobs</TableCaption>
             <TableHeader>
                 <TableRow>
-                    <TableHead>Logo</TableHead>
-                    <TableHead>Name</TableHead>
+                    <TableHead>Comapny Name</TableHead>
+                    <TableHead>Job Role</TableHead>
                     <TableHead>Date</TableHead>
                     <TableHead>Action</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
             {
-                        filterCompany?.map((company) => (
+                        filterAdminJobs?.map((job) => (
                             <tr>
-                                <TableCell>
-                                    <Avatar>
-                                        <AvatarImage src={company.logo}/>
-                                    </Avatar>
-                                </TableCell>
-                                <TableCell>{company.name}</TableCell>
-                                <TableCell>{company.createdAt.split("T")[0]}</TableCell>
+                                <TableCell>{job?.company?.name}</TableCell>
+                                <TableCell>{job?.title}</TableCell>
+                                <TableCell>{job.createdAt.split("T")[0]}</TableCell>
                                 <TableCell className="text-right cursor-pointer">
                                     <Popover>
                                         <PopoverTrigger><MoreHorizontal /></PopoverTrigger>
                                         <PopoverContent className="w-32">
-                                            <div onClick={()=> navigate(`/admin/companies/${company._id}`)} className='flex items-center gap-2 w-fit cursor-pointer'>
+                                            <div onClick={()=> navigate(`/admin/companies/${job._id}`)} className='flex items-center gap-2 w-fit cursor-pointer'>
                                                 <Edit2 className='w-4' />
                                                 <span>Edit</span>
                                             </div>
@@ -67,4 +63,4 @@ const CompaniesTable = () => {
   )
 }
 
-export default CompaniesTable
+export default AdminJobTable
