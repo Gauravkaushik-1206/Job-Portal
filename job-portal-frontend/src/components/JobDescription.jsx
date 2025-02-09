@@ -16,7 +16,7 @@ const JobDescription = () => {
     const {user} = useSelector(store=>store.auth);
     let isApplied = singleJob?.application?.some(application=>application.applicant === user?._id) || false;
     const [applied,setApplied] = useState(isApplied);
-    console.log(applied);
+    // console.log(applied);
     const applyHandler = async ()=>{
         try {
             const res = await axios(`${Application_API_End_Point}/apply/${jobId}`,{withCredentials:true});
