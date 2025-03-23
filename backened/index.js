@@ -24,12 +24,13 @@ const corsOption = {
     credentials:true
 }
 app.use(cors(corsOption));
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'https://job-portal-chi-sooty.vercel.app');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    next();
-});
+
+// app.use((req, res, next) => {
+//     // res.setHeader('Access-Control-Allow-Origin', 'https://job-portal-chi-sooty.vercel.app');
+//     // res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+//     // res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+//     next();
+// });
 
 app.use(cookieParser(process.env.JWTPASSWORD));
 //api's
