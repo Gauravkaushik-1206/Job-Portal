@@ -14,11 +14,11 @@ dotenv.config({});
 const app = express();
 
 //middleware
-// const corsOptions = {
-//     origin: ["https://job-portal-chi-sooty.vercel.app"],
-//     credentials: true,
-// };
-// app.use(cors(corsOptions));
+const corsOptions = {
+    origin: ["https://job-portal-chi-sooty.vercel.app"],
+    credentials: true,
+};
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
