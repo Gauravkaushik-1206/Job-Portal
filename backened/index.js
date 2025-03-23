@@ -14,23 +14,24 @@ dotenv.config({});
 const app = express();
 
 //middleware
-app.use(express.json());
-app.use(express.urlencoded({extended:true}));
-// app.use(cookieParser());
-app.use(morgan('tiny'));
-
-const corsOption = {
-    origin:"https://job-portal-chi-sooty.vercel.app",
-    credentials:true
-}
+const corsOptions = {
+    origin: ["https://job-portal-chi-sooty.vercel.app"],
+    credentials: true,
+};
 app.use(cors(corsOption));
 
+app.use(express.json());
 // app.use((req, res, next) => {
 //     // res.setHeader('Access-Control-Allow-Origin', 'https://job-portal-chi-sooty.vercel.app');
 //     // res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
 //     // res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 //     next();
 // });
+app.use(express.urlencoded({extended:true}));
+// app.use(cookieParser());
+app.use(morgan('tiny'));
+
+
 
 app.use(cookieParser(process.env.JWTPASSWORD));
 //api's
