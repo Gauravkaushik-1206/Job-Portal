@@ -15,7 +15,7 @@ const app = express();
 
 //middleware
 const corsOptions = {
-    origin: ["https://job-portal-chi-sooty.vercel.app"],
+    origin: ["https://job-portal-chi-sooty.vercel.app","http://localhost:5173"],
     credentials: true,
 };
 app.use(cors(corsOptions));
@@ -27,13 +27,13 @@ app.use(express.urlencoded({extended:true}));
 app.use(morgan('tiny'));
 app.use(cookieParser(process.env.JWTPASSWORD));
 
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'https://job-portal-chi-sooty.vercel.app');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.setHeader('Access-Control-Allow-Credentials', true);
-    next();
-});
+// app.use((req, res, next) => {
+//     res.setHeader('Access-Control-Allow-Origin', 'https://job-portal-chi-sooty.vercel.app');
+//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+//     res.setHeader('Access-Control-Allow-Credentials', true);
+//     next();
+// });
 
 
 

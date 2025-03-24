@@ -96,14 +96,15 @@ export const login = async (req,res)=>{
         // console.log('Token: ',token);
         res.cookie('token',token,{
             httpOnly:true,
-            secure : false,
+            secure : process.env.NODE_ENV === 'production' ? true : false,
             signed:true,
-            sameSite:'None',
+            // sameSite:'None',
             // maxAge:1000,// sets the expiration time in milliseconds, for now we are setting it much less
             expires: new Date(Date.now()+8640000),
         })
         // res.cookie("token",token,{maxAge:1*24*60*60*1000,httpOnly:true,sameSite:'None',secure:true});
         // console.log(res.cookie.token);
+        // console.log(res.cookie);
         
         return res.status(200).json({
             message:`Welcome back ${user.fullname}`,
