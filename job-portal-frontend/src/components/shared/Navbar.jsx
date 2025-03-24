@@ -25,7 +25,7 @@ const Navbar = () => {
                 try{
                     const res = await axios.get(`${User_API_End_Point}/validate`,{
                         withCredentials:true,
-                        validateStatus: () => true  // ✅ Treats all status codes as successful
+                        // validateStatus: () => true  // ✅ Treats all status codes as successful
                     });
                     if(!res.data.sucess){
                         dispatch(setUser(null));
