@@ -98,7 +98,7 @@ export const login = async (req,res)=>{
             httpOnly:true,
             secure : process.env.NODE_ENV === 'production' ? true : false,
             signed:true,
-            // sameSite:'None',
+            sameSite:'None',
             // maxAge:1000,// sets the expiration time in milliseconds, for now we are setting it much less
             expires: new Date(Date.now()+8640000),
         })

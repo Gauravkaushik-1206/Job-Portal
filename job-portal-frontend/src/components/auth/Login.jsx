@@ -29,6 +29,7 @@ const Login = () => {
 
         try {
             dispatch(setLoading(true));
+            axios.defaults.withCredentials = true;
             const res = await axios.post(`${User_API_End_Point}/login`,input,{
                 headers:{
                     "Content-Type":"application/json"
